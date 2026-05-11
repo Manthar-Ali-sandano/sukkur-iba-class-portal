@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+<title>Kandhkot Campus | Live Classes Portal (CS & BBA)</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy:    #0a2b3e;
+    --navy2:   #134b5e;
+    --navy3:   #1c6a7a;
+    --accent:  #e67e22;
+    --accent2: #f39c12;
+    --white:   #ffffff;
+    --offwhite:#f8fafc;
+    --card:    #ffffff;
+    --border:  #e2e8f0;
+    --text:    #1e293b;
+    --muted:   #5b6e8c;
+    --meet:    #1a73e8;
+    --meet2:   #0f5bb5;
+    --radius:  14px;
+  }
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Nunito',sans-serif; background:var(--offwhite); color:var(--text); min-height:100vh; overflow-x:hidden; }
+  
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(230,126,34,0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(230,126,34,0); }
+  }
+  
+  header { background: var(--navy); position: relative; }
+  .header-top { background: var(--accent); padding: 7px 32px; display: flex; align-items: center; gap: 10px; }
+  .header-top span { color:#fff; font-size:11.5px; font-weight:700; letter-spacing:2px; text-transform:uppercase; }
+  .header-inner { display:flex; align-items:center; gap:20px; padding:18px 32px 20px; flex-wrap:wrap; }
+  .logo-circle { width:60px; height:60px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; color:#fff; flex-shrink:0; transition: transform 0.3s ease; }
+  .logo-circle:hover { transform: scale(1.05); }
+  .logo-text h1 { font-size:18px; font-weight:800; color:var(--white); }
+  .logo-text p { font-size:12px; color:rgba(255,255,255,.65); margin-top:2px; }
+  .page-label { margin-left:auto; background:rgba(255,255,255,.1); backdrop-filter: blur(4px); border:1px solid rgba(255,255,255,.2); padding:7px 20px; border-radius:40px; font-size:12.5px; font-weight:700; }
+  
+  .hero { background: linear-gradient(135deg, var(--navy2) 0%, var(--navy3) 100%); padding:34px 32px 30px; border-bottom:3px solid var(--accent); }
+  .hero h2 { font-size:clamp(22px,3.5vw,32px); font-weight:800; color:#fff; margin-bottom:8px; }
+  .hero h2 span { color:var(--accent); }
+  .hero p { color:rgba(255,255,255,.7); font-size:14px; margin-bottom:18px; }
+  .hero-pills { display:flex; gap:10px; flex-wrap:wrap; }
+  .hero-pill { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); padding:6px 16px; border-radius:40px; font-size:12.5px; font-weight:600; transition: all 0.3s; }
+  .hero-pill:hover { background:rgba(230,126,34,0.3); transform: translateY(-2px); }
+  
+  main { max-width:1400px; margin:0 auto; padding:28px 24px 60px; }
+  
+  .program-tabs { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:28px; border-bottom:2px solid var(--border); }
+  .prog-btn { background:transparent; border:none; padding:12px 32px; font-weight:800; font-size:1.05rem; cursor:pointer; color:var(--muted); border-bottom:3px solid transparent; transition: all 0.3s; }
+  .prog-btn:hover { color:var(--navy); }
+  .prog-btn.active { color:var(--navy); border-bottom-color:var(--accent); }
+  
+  .program-panel { display:none; background:var(--card); border-radius:var(--radius); box-shadow:0 8px 30px rgba(0,0,0,0.05); border:1px solid var(--border); padding:28px 24px; animation: fadeInUp 0.4s ease-out; }
+  .program-panel.active { display:block; }
+  
+  .semester-row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px; padding-bottom:12px; border-bottom:1px solid var(--border); }
+  .sem-btn { background:#f1f5f9; border:none; padding:8px 24px; border-radius:40px; font-weight:600; font-size:0.85rem; cursor:pointer; transition: all 0.25s ease; color:#2c3e66; }
+  .sem-btn:hover { background:var(--accent); color:white; transform: translateY(-2px); }
+  .sem-btn.active { background:var(--accent); color:white; }
+  
+  .sem-panel { display:none; animation: fadeInUp 0.3s ease-out; }
+  .sem-panel.active { display:block; }
+  
+  .day-block { margin-bottom: 32px; }
+  .day-heading { display:flex; align-items:center; gap:14px; margin-bottom:18px; padding:8px 0; border-bottom: 2px solid var(--border); }
+  .day-badge { background:linear-gradient(135deg, var(--navy2), var(--navy)); color:#fff; font-size:13px; font-weight:800; padding:6px 20px; border-radius:40px; display:inline-flex; align-items:center; gap:8px; }
+  .today-highlight .day-badge { background: linear-gradient(135deg, #e67e22, #f39c12); animation: pulseGlow 2s infinite; }
+  .day-rule { flex:1; height:2px; background:linear-gradient(90deg, var(--border), transparent); }
+  
+  .slots-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; margin-top:8px; }
+  .slot-card { background:var(--offwhite); border:1px solid var(--border); border-radius:18px; padding:16px 18px; transition: all 0.35s; }
+  .slot-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.12); border-color: var(--accent); }
+  .time-tag { display:inline-block; font-size:11px; font-weight:800; color:var(--accent); background: rgba(230,126,34,0.1); padding:4px 12px; border-radius:30px; margin-bottom:8px; }
+  .subj { font-size:16px; font-weight:800; color:var(--navy); margin:8px 0 6px; }
+  .teacher { font-size:13px; color:var(--muted); font-weight:600; display:flex; align-items:center; gap:6px; margin-bottom:8px; }
+  .meet-btn { display:inline-flex; align-items:center; gap:8px; background:var(--meet); color:#fff; padding:8px 18px; border-radius:40px; font-size:12px; font-weight:700; text-decoration:none; margin-top:8px; transition: all 0.25s; }
+  .meet-btn:hover { background:var(--meet2); transform: translateY(-1px); }
+  .no-class { background:#f9fbfd; border:1.5px dashed var(--border); border-radius:20px; padding:20px; text-align:center; color:var(--muted); font-style:italic; }
+  .live-dot { display:inline-block; width:10px; height:10px; background:#4ade80; border-radius:50%; margin-right:6px; animation: pulseGlow 1.5s infinite; }
+  
+  footer { background:var(--navy); color:rgba(255,255,255,.55); text-align:center; padding:24px; font-size:12.5px; border-top:3px solid var(--accent); margin-top:20px; }
+  footer strong { color:#fff; }
+  footer a { color:var(--accent); text-decoration:none; }
+  
+  @media(max-width:700px){
+    .header-inner { flex-direction:column; align-items:flex-start; }
+    .page-label { margin-left:0; margin-top:10px; }
+    .hero { padding:24px 18px; }
+    main { padding:18px 12px 40px; }
+    .program-panel { padding:20px 16px; }
+    .prog-btn { padding:8px 20px; font-size:0.9rem; }
+    .slots-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <span>Sukkur IBA University</span>
+    <span>·</span>
+    <span>Kandhkot Campus</span>
+  </div>
+  <div class="header-inner">
+    <div class="logo-circle">SIBA</div>
+    <div class="logo-text">
+      <h1>Sukkur IBA University — Kandhkot Campus</h1>
+      <p>Faculty of Computing & Business Administration | Live Classes Portal</p>
+    </div>
+    <div class="page-label">📅 Weekly Schedule · Spring 2026</div>
+  </div>
+</header>
+
+<div class="hero">
+  <h2>Bachelor Programs — <span>BSCS & BBA</span></h2>
+  <p>Complete weekly timetable for BSCS (II, IV, VI, VIII) and BBA (II, IV, VI, VIII) | Effective from 24 March 2026</p>
+  <div class="hero-pills">
+    <span class="hero-pill">📅 Monday – Friday</span>
+    <span class="hero-pill">💻 BSCS · II · IV · VI · VIII</span>
+    <span class="hero-pill">📊 BBA · II · IV · VI · VIII</span>
+    <span class="hero-pill">🔗 One‑click Google Meet</span>
+  </div>
+</div>
+
+<main>
+  <div class="program-tabs">
+    <button class="prog-btn active" data-program="cs">💻 Bachelor of Computer Science (BSCS)</button>
+    <button class="prog-btn" data-program="bba">📊 Bachelor of Business Administration (BBA)</button>
+  </div>
+
+  <!-- BSCS PROGRAM -->
+  <div id="cs-program" class="program-panel active">
+    <div class="semester-row">
+      <button class="sem-btn active" data-sem="cs-2">BSCS Semester II</button>
+      <button class="sem-btn" data-sem="cs-4">BSCS Semester IV</button>
+      <button class="sem-btn" data-sem="cs-6">BSCS Semester VI</button>
+      <button class="sem-btn" data-sem="cs-8">BSCS Semester VIII</button>
+    </div>
+
+    <!-- BSCS Semester II -->
+    <div id="cs-2-panel" class="sem-panel active">
+      <div class="days-container" id="cs2-days"></div>
+    </div>
+    
+    <!-- BSCS Semester IV -->
+    <div id="cs-4-panel" class="sem-panel">
+      <div class="days-container" id="cs4-days"></div>
+    </div>
+    
+    <!-- BSCS Semester VI -->
+    <div id="cs-6-panel" class="sem-panel">
+      <div class="days-container" id="cs6-days"></div>
+    </div>
+    
+    <!-- BSCS Semester VIII (Based on your screenshot) -->
+    <div id="cs-8-panel" class="sem-panel">
+      <div class="days-container" id="cs8-days"></div>
+    </div>
+  </div>
+
+  <!-- BBA PROGRAM -->
+  <div id="bba-program" class="program-panel">
+    <div class="semester-row">
+      <button class="sem-btn active" data-sem="bba-2">BBA Semester II</button>
+      <button class="sem-btn" data-sem="bba-4">BBA Semester IV</button>
+      <button class="sem-btn" data-sem="bba-6">BBA Semester VI</button>
+      <button class="sem-btn" data-sem="bba-8">BBA Semester VIII</button>
+    </div>
+    <div id="bba-2-panel" class="sem-panel active"><div class="days-container" id="bba2-days"></div></div>
+    <div id="bba-4-panel" class="sem-panel"><div class="days-container" id="bba4-days"></div></div>
+    <div id="bba-6-panel" class="sem-panel"><div class="days-container" id="bba6-days"></div></div>
+    <div id="bba-8-panel" class="sem-panel"><div class="days-container" id="bba8-days"></div></div>
+  </div>
+</main>
+
+<footer>
+  <strong>Sukkur IBA University – Kandhkot Campus</strong><br/>
+  📍 Kandhkot, District Kashmore, Sindh, Pakistan &nbsp;|&nbsp; 📞 +92 (243) 680901 &nbsp;|&nbsp; ✉️ <a href="mailto:info@iba-suk.edu.pk">info@iba-suk.edu.pk</a><br/>
+  <small>Weekly Timetable effective 24 March 2026 · Click any "Join Google Meet" button to enter your live session.</small>
+</footer>
+
+<script>
+  // Time slots mapping
+  const timeSlots = {
+    slot1: "9:00 – 9:50 AM",
+    slot2: "9:50 – 10:40 AM",
+    slot3: "11:10 AM – 12:00 PM",
+    slot4: "12:10 – 1:00 PM",
+    slot5: "2:00 – 2:50 PM",
+    slot6: "2:50 – 3:40 PM",
+    slot7: "4:10 – 5:00 PM"
+  };
+  
+  const today = new Date().getDay();
+  const todayName = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][today];
+  
+  // ============= BSCS-VIII (Based on your screenshot) =============
+  const cs8Data = {
+    Monday: [
+      { time: "9:00 – 9:50 AM", subject: "Data Science", teacher: "Faiz Lakhani", link: "https://meet.google.com/vqv-xuvy-mwi" },
+      { time: "9:50 – 10:40 AM", subject: "Data Science", teacher: "Faiz Lakhani", link: "https://meet.google.com/vqv-xuvy-mwi" },
+      { time: "2:00 – 2:50 PM", subject: "Computer Vision", teacher: "Shahzaib Hassan", link: "https://meet.google.com/hko-ccsr-kde" },
+      { time: "2:50 – 3:40 PM", subject: "Computer Vision", teacher: "Shahzaib Hassan", link: "https://meet.google.com/hko-ccsr-kde" }
+    ],
+    Tuesday: [],
+    Wednesday: [
+      { time: "9:00 – 9:50 AM", subject: "Human Computer Interaction", teacher: "Noor Nabi", link: "https://meet.google.com/ipm-cddm-jzv" },
+      { time: "2:00 – 2:50 PM", subject: "Parallel & Distributed Computing/Cloud", teacher: "Muhammad Raess", link: "https://meet.google.com/rao-aric-qjt" },
+      { time: "2:50 – 3:40 PM", subject: "Parallel & Distributed Computing/Cloud", teacher: "Muhammad Raess", link: "https://meet.google.com/rao-aric-qjt" }
+    ],
+    Thursday: [
+      { time: "9:00 – 9:50 AM", subject: "FYP-II", teacher: "BSCS-VIII Supervisor", link: "https://meet.google.com/ipm-cddm-jzv" },
+      { time: "9:50 – 10:40 AM", subject: "FYP-II", teacher: "BSCS-VIII Supervisor", link: "https://meet.google.com/ipm-cddm-jzv" },
+      { time: "2:00 – 2:50 PM", subject: "Multivariate Calculus", teacher: "Iftikhar Ahmed", link: "https://meet.google.com/qih-rina-gfx" },
+      { time: "2:50 – 3:40 PM", subject: "Multivariate Calculus", teacher: "Iftikhar Ahmed", link: "https://meet.google.com/qih-rina-gfx" }
+    ],
+    Friday: [
+        
+    ]
+  };
+  
+  // ============= BSCS-II (From previous PDF) =============
+  const cs2Data = {
+    Monday: [
+      { time: "9:00 – 9:50 AM", subject: "Database System Lab", teacher: "Faiz Lakhani", link: "https://meet.google.com/vqv-xuvy-mwi" }
+    ],
+    Tuesday: [
+      { time: "9:00 – 9:50 AM", subject: "Expository Writing", teacher: "Maria Fatima", link: "https://meet.google.com/tjr-uzsr-zbv" },
+      { time: "2:00 – 2:50 PM", subject: "OOP Lab", teacher: "Faiz Lakhani", link: "https://meet.google.com/vqv-xuvy-mwi" }
+    ],
+    Wednesday: [
+      { time: "11:10 AM – 12:00 PM", subject: "Database System", teacher: "Faiz Lakhani", link: "https://meet.google.com/hko-ccsr-kde" },
+      { time: "2:00 – 2:50 PM", subject: "Applied Physics Lab", teacher: "Muhammad Ismail", link: "https://meet.google.com/ipm-cddm-jzv" }
+    ],
+    Thursday: [
+      { time: "9:00 – 9:50 AM", subject: "Database System Lab", teacher: "Faiz Lakhani", link: "https://meet.google.com/vqv-xuvy-mwi" },
+      { time: "2:00 – 2:50 PM", subject: "Comparative Religion", teacher: "Arbab Manzoor", link: "https://meet.google.com/tjr-uzsr-zbv" },
+      { time: "2:50 – 3:40 PM", subject: "Fahm e Quran", teacher: "Mufti Fahad Rasheed", link: "https://meet.google.com/voy-iicu-gsm" }
+    ],
+    Friday: [
+      { time: "9:00 – 9:50 AM", subject: "OOP", teacher: "Faiz Lakhani", link: "https://meet.google.com/vqv-xuvy-mwi" }
+    ]
+  };
+  
+  // ============= BSCS-IV (From PDF) =============
+  const cs4Data = {
+    Monday: [
+      { time: "9:00 – 9:50 AM", subject: "AI Lab", teacher: "Dr. Sajid Ahmed", link: "https://meet.google.com/tog-sify-gow" },
+      { time: "9:50 – 10:40 AM", subject: "AI Lab", teacher: "Dr. Sajid Ahmed", link: "https://meet.google.com/tog-sify-gow" }
+    ],
+    Tuesday: [],
+    Wednesday: [
+      { time: "9:00 – 9:50 AM", subject: "Probability and Statistics", teacher: "Iftikhar Ahmed", link: "https://meet.google.com/qih-rina-gfx" }
+    ],
+    Thursday: [
+      { time: "2:00 – 2:50 PM", subject: "Information Security", teacher: "Noor Nabi", link: "https://meet.google.com/ipm-cddm-jzv" },
+      { time: "2:50 – 3:40 PM", subject: "Information Security", teacher: "Noor Nabi", link: "https://meet.google.com/ipm-cddm-jzv" }
+    ],
+    Friday: [
+      { time: "11:10 AM – 12:00 PM", subject: "Theory of Automata", teacher: "Muhammad Ismail", link: "https://meet.google.com/gbz-webq-axk" }
+    ]
+  };
+  
+  // ============= BSCS-VI (From PDF) =============
+  const cs6Data = {
+    Monday: [
+      { time: "9:00 – 9:50 AM", subject: "Design and Analysis of Algorithms", teacher: "Shahzaib Hassan", link: "https://meet.google.com/hko-ccsr-kde" }
+    ],
+    Tuesday: [
+      { time: "9:00 – 9:50 AM", subject: "AI Lab", teacher: "Dr. Sajid Ahmed", link: "https://meet.google.com/tog-sify-gow" }
+    ],
+    Wednesday: [
+      { time: "11:10 AM – 12:00 PM", subject: "Information Security", teacher: "Noor Nabi", link: "https://meet.google.com/ipm-cddm-jzv" }
+    ],
+    Thursday: [
+      { time: "2:00 – 2:50 PM", subject: "Theory of Automata", teacher: "Muhammad Ismail", link: "https://meet.google.com/gbz-webq-axk" }
+    ],
+    Friday: []
+  };
+  
+  // ============= BBA-II (From PDF) =============
+  const bba2Data = {
+    Monday: [
+      { time: "9:00 – 9:50 AM", subject: "Principles of Accounting", teacher: "Syeda Beena", link: "https://meet.google.com/vyy-vcgk-dpo" },
+      { time: "9:50 – 10:40 AM", subject: "Principles of Accounting", teacher: "Syeda Beena", link: "https://meet.google.com/vyy-vcgk-dpo" }
+    ],
+    Tuesday: [
+      { time: "9:00 – 9:50 AM", subject: "Business Mathematics", teacher: "Abdul Rehman", link: "https://meet.google.com/qih-rina-gfx" },
+      { time: "9:50 – 10:40 AM", subject: "Business Mathematics", teacher: "Abdul Rehman", link: "https://meet.google.com/qih-rina-gfx" }
+    ],
+    Wednesday: [
+      { time: "9:00 – 9:50 AM", subject: "Principles of Macroeconomic", teacher: "Khair Bux", link: "https://meet.google.com/ipm-cddm-jzv" },
+      { time: "9:50 – 10:40 AM", subject: "Principles of Macroeconomic", teacher: "Khair Bux", link: "https://meet.google.com/ipm-cddm-jzv" }
+    ],
+    Thursday: [
+      { time: "4:10 – 5:00 PM", subject: "I&CoP", teacher: "Dildar Ali", link: "https://meet.google.com/hss-jwoz-oyz" }
+    ],
+    Friday: []
+  };
+  
+  // ============= BBA-IV (From PDF) =============
+  const bba4Data = {
+    Monday: [
+      { time: "9:00 – 9:50 AM", subject: "E-Commerce", teacher: "Ali Raza", link: "https://meet.google.com/vyy-vcgk-dpo" },
+      { time: "9:50 – 10:40 AM", subject: "E-Commerce", teacher: "Ali Raza", link: "https://meet.google.com/vyy-vcgk-dpo" }
+    ],
+    Tuesday: [
+      { time: "9:00 – 9:50 AM", subject: "Financial Institutions and Markets", teacher: "Muhammad Adnan", link: "https://meet.google.com/rao-aric-qjt" },
+      { time: "9:50 – 10:40 AM", subject: "Financial Institutions and Markets", teacher: "Muhammad Adnan", link: "https://meet.google.com/rao-aric-qjt" }
+    ],
+    Wednesday: [
+      { time: "9:00 – 9:50 AM", subject: "Development Economics", teacher: "Khair Bux", link: "https://meet.google.com/ipm-cddm-jzv" },
+      { time: "9:50 – 10:40 AM", subject: "Development Economics", teacher: "Khair Bux", link: "https://meet.google.com/ipm-cddm-jzv" }
+    ],
+    Thursday: [
+      { time: "2:00 – 2:50 PM", subject: "Business Calculus", teacher: "Iftikhar Ahmed", link: "https://meet.google.com/qih-rina-gfx" },
+      { time: "2:50 – 3:40 PM", subject: "Business Calculus", teacher: "Iftikhar Ahmed", link: "https://meet.google.com/qih-rina-gfx" }
+    ],
+    Friday: []
+  };
+  
+  // ============= BBA-VI (From PDF) =============
+  const bba6Data = {
+    Monday: [
+      { time: "9:00 – 9:50 AM", subject: "Managerial Accounting", teacher: "Muhammad Adnan", link: "https://meet.google.com/rao-aric-qjt" },
+      { time: "9:50 – 10:40 AM", subject: "Managerial Accounting", teacher: "Muhammad Adnan", link: "https://meet.google.com/rao-aric-qjt" }
+    ],
+    Tuesday: [
+      { time: "9:00 – 9:50 AM", subject: "Production and Operations Management", teacher: "Faisal Zulfiqar", link: "https://meet.google.com/ojd-fche-hfm" },
+      { time: "9:50 – 10:40 AM", subject: "Production and Operations Management", teacher: "Faisal Zulfiqar", link: "https://meet.google.com/ojd-fche-hfm" }
+    ],
+    Wednesday: [
+      { time: "9:00 – 9:50 AM", subject: "Financial Report & Analysis", teacher: "Nadia Anjum", link: "https://meet.google.com/ojd-fche-hfm" },
+      { time: "9:50 – 10:40 AM", subject: "Financial Report & Analysis", teacher: "Nadia Anjum", link: "https://meet.google.com/ojd-fche-hfm" }
+    ],
+    Thursday: [
+      { time: "2:00 – 2:50 PM", subject: "Business Ethics & Corporate Social Responsibility", teacher: "Ali Raza", link: "https://meet.google.com/vyy-vcgk-dpo" },
+      { time: "2:50 – 3:40 PM", subject: "Business Ethics & Corporate Social Responsibility", teacher: "Ali Raza", link: "https://meet.google.com/vyy-vcgk-dpo" }
+    ],
+    Friday: []
+  };
+  
+  // ============= BBA-VIII (From PDF) =============
+  const bba8Data = {
+    Monday: [
+      { time: "9:00 – 9:50 AM", subject: "E-Commerce", teacher: "Ali Raza", link: "https://meet.google.com/vyy-vcgk-dpo" },
+      { time: "9:50 – 10:40 AM", subject: "E-Commerce", teacher: "Ali Raza", link: "https://meet.google.com/vyy-vcgk-dpo" }
+    ],
+    Tuesday: [
+      { time: "9:00 – 9:50 AM", subject: "Comparative Management", teacher: "Nadia Anjum", link: "https://meet.google.com/ojd-fche-hfm" },
+      { time: "9:50 – 10:40 AM", subject: "Comparative Management", teacher: "Nadia Anjum", link: "https://meet.google.com/ojd-fche-hfm" }
+    ],
+    Wednesday: [
+      { time: "9:00 – 9:50 AM", subject: "Compensation & Benefit Management", teacher: "Dr. Abdul Qadir Rahimoon", link: "https://meet.google.com/vyy-vcgk-dpo" },
+      { time: "9:50 – 10:40 AM", subject: "Compensation & Benefit Management", teacher: "Dr. Abdul Qadir Rahimoon", link: "https://meet.google.com/vyy-vcgk-dpo" }
+    ],
+    Thursday: [
+      { time: "2:00 – 2:50 PM", subject: "Conflict Management", teacher: "Syed Ali Akbar Shah", link: "https://meet.google.com/vyy-vcgk-dpo" },
+      { time: "4:10 – 5:00 PM", subject: "Portfolio Management / Applied Trading Strategies", teacher: "Muhammad Adnan / Faisal Zulfiqar", link: "https://meet.google.com/rao-aric-qjt" }
+    ],
+    Friday: []
+  };
+  
+  function renderDays(containerId, data) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    let html = '';
+    for (let day of days) {
+      const slots = data[day] || [];
+      const isToday = (day === todayName);
+      const todayClass = isToday ? 'today-highlight' : '';
+      html += `<div class="day-block">
+        <div class="day-heading ${todayClass}">
+          <span class="day-badge">${isToday ? '<span class="live-dot"></span>' : ''}${day}</span>
+          <div class="day-rule"></div>
+        </div>
+        <div class="slots-grid">`;
+      if (slots.length === 0) {
+        html += `<div class="no-class">📖 No classes scheduled • Self-study / Lab work</div>`;
+      } else {
+        for (let s of slots) {
+          html += `<div class="slot-card">
+            <div class="time-tag">⏱ ${s.time}</div>
+            <div class="subj">${s.subject}</div>
+            <div class="teacher">👨‍🏫 ${s.teacher}</div>
+            <a class="meet-btn" href="${s.link}" target="_blank">🔗 Join Google Meet</a>
+          </div>`;
+        }
+      }
+      html += `</div></div>`;
+    }
+    container.innerHTML = html;
+  }
+  
+  // Render all
+  renderDays('cs2-days', cs2Data);
+  renderDays('cs4-days', cs4Data);
+  renderDays('cs6-days', cs6Data);
+  renderDays('cs8-days', cs8Data);
+  renderDays('bba2-days', bba2Data);
+  renderDays('bba4-days', bba4Data);
+  renderDays('bba6-days', bba6Data);
+  renderDays('bba8-days', bba8Data);
+  
+  // Program switching
+  const progBtns = document.querySelectorAll('.prog-btn');
+  const csPanel = document.getElementById('cs-program');
+  const bbaPanel = document.getElementById('bba-program');
+  
+  function setActiveProgram(programId) {
+    if (programId === 'cs') { csPanel.classList.add('active'); bbaPanel.classList.remove('active'); }
+    else { csPanel.classList.remove('active'); bbaPanel.classList.add('active'); }
+    progBtns.forEach(btn => { if (btn.dataset.program === programId) btn.classList.add('active'); else btn.classList.remove('active'); });
+  }
+  
+  progBtns.forEach(btn => { btn.addEventListener('click', () => setActiveProgram(btn.dataset.program)); });
+  
+  // Semester switching
+  const csSemBtns = document.querySelectorAll('#cs-program .sem-btn');
+  const csPanels = { 'cs-2': document.getElementById('cs-2-panel'), 'cs-4': document.getElementById('cs-4-panel'), 'cs-6': document.getElementById('cs-6-panel'), 'cs-8': document.getElementById('cs-8-panel') };
+  function activateCsSem(semId) { Object.values(csPanels).forEach(p => p?.classList.remove('active')); if(csPanels[semId]) csPanels[semId].classList.add('active'); csSemBtns.forEach(btn => { if(btn.dataset.sem === semId) btn.classList.add('active'); else btn.classList.remove('active'); }); }
+  csSemBtns.forEach(btn => btn.addEventListener('click', () => activateCsSem(btn.dataset.sem)));
+  
+  const bbaSemBtns = document.querySelectorAll('#bba-program .sem-btn');
+  const bbaPanels = { 'bba-2': document.getElementById('bba-2-panel'), 'bba-4': document.getElementById('bba-4-panel'), 'bba-6': document.getElementById('bba-6-panel'), 'bba-8': document.getElementById('bba-8-panel') };
+  function activateBbaSem(semId) { Object.values(bbaPanels).forEach(p => p?.classList.remove('active')); if(bbaPanels[semId]) bbaPanels[semId].classList.add('active'); bbaSemBtns.forEach(btn => { if(btn.dataset.sem === semId) btn.classList.add('active'); else btn.classList.remove('active'); }); }
+  bbaSemBtns.forEach(btn => btn.addEventListener('click', () => activateBbaSem(btn.dataset.sem)));
+  
+  activateCsSem('cs-2');
+  activateBbaSem('bba-2');
+  setActiveProgram('cs');
+</script>
+</body>
+</html>
